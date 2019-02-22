@@ -1,23 +1,26 @@
 const Path = require('path');
 
 const Express = require('express');
-
+const Configuration = require('configuration-wrapper');
 
 const libPath = Path.join(__dirname, 'lib');
+const cfgPath = Path.join(__dirname, 'cfg');
+const cfgFile = Path.join(cfgPath, 'server.yml');
+
 const Services = require(Path.join(libPath, 'services.js'));
 
-const app = Express();
 
+const configuration = Configuration.fromFile(cfgFile);
 
-const publicPath = Path.join(process.cwd(), 'public');
-const dbURL = 'postgresql://dm-api@localhost:5432/dm-api'
-const pathPrefix = 'api'
-
-app.use(Express.static(publicPath));  // public assets path.
-app.use(Express.json());
+const publicPath = configuration.public;
+const dbURL = configuration.database;
+const pathPrefix = configuration.prefix;
 
 const dbClient = new Services.Database.Client(dbURL);
 
+const app = Express();
+app.use(Express.static(publicPath));  // public assets path.
+app.use(Express.json());
 
 
 function callback(req, res) {
@@ -161,4 +164,4 @@ process.on('exit', (code) => {
 });
 
 process.on('SIGINT', process.exit);
-process.on('SIGINT', process.exit);
+process.on('SIGTERM', process.exit);

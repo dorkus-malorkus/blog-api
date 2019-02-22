@@ -1,0 +1,5 @@
+
+public: public
+prefix: api
+
+database: postgresql://dm-api@localhost:5432/dm-api
