@@ -15,5 +15,9 @@
     "start": "node ./server.js"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/slackjockey/configuration-wrapper"
+  }
 }
