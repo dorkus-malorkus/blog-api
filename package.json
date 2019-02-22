@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "express": "^4.16.4",
-    "pg": "^7.8.0"
+    "pg": "^7.8.0",
+    "configuration-wrapper": "^0.0.1-beta"
   },
   "scripts": {
     "start": "node ./server.js"
