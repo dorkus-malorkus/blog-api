@@ -11,6 +11,7 @@ const app = Express();
 
 const publicPath = Path.join(process.cwd(), 'public');
 const dbURL = 'postgresql://dm-api@localhost:5432/dm-api'
+const pathPrefix = 'api'
 
 app.use(Express.static(publicPath));  // public assets path.
 app.use(Express.json());
@@ -22,6 +23,8 @@ const dbClient = new Services.Database.Client(dbURL);
 function callback(req, res) {
   let sanitized = req.path.match(/^[\/]+([\w\.\/-]+)$/);
   let nodes = sanitized && sanitized[1].split(/\//);
+
+  nodes = nodes.filter((node) => node != pathPrefix);
 
   let table = nodes[0];
   let handle = nodes[1];
@@ -75,70 +78,76 @@ function callback(req, res) {
 
 
 
-
+let prefix;
 
 //app.get('/*', callback);
+prefix = [undefined, pathPrefix, 'authors'].join('/');
 
-app.get('/authors', callback);
-app.get('/authors/:handle', callback);
-app.get('/authors/:handle/handle', callback);
-app.get('/authors/:handle/email', callback);
-app.get('/authors/:handle/active', callback);
-app.get('/authors/:handle/searchable', callback);
-app.get('/authors/:handle/commenting', callback);
-app.get('/authors/:handle/created', callback);
-app.get('/authors/:handle/updated', callback);
+app.get(prefix + '/', callback);
+app.get(prefix + '/:handle', callback);
+app.get(prefix + '/:handle/handle', callback);
+app.get(prefix + '/:handle/email', callback);
+app.get(prefix + '/:handle/active', callback);
+app.get(prefix + '/:handle/searchable', callback);
+app.get(prefix + '/:handle/commenting', callback);
+app.get(prefix + '/:handle/created', callback);
+app.get(prefix + '/:handle/updated', callback);
 
-app.post('/authors', callback);
-app.patch('/authors/:handle', callback);
+app.post(prefix + '', callback);
+app.patch(prefix + '/:handle', callback);
 
-//app.put('/authors/:handle/handle', callback);
-app.put('/authors/:handle/email', callback);
-app.put('/authors/:handle/password', callback);
-app.put('/authors/:handle/active', callback);
-app.put('/authors/:handle/searchable', callback);
-app.put('/authors/:handle/commenting', callback);
-//app.put('/authors/:handle/created', callback);
-//app.put('/authors/:handle/updated', callback);
-//app.delete('/authors/:handle', callback.bind(undefined, service));
+//app.put(prefix + '/:handle/handle', callback);
+app.put(prefix + '/:handle/email', callback);
+app.put(prefix + '/:handle/password', callback);
+app.put(prefix + '/:handle/active', callback);
+app.put(prefix + '/:handle/searchable', callback);
+app.put(prefix + '/:handle/commenting', callback);
+//app.put(prefix + '/:handle/created', callback);
+//app.put(prefix + '/:handle/updated', callback);
+//app.delete(prefix + '/:handle', callback.bind(undefined, service));
 
 
-app.get('/posts', callback);
-app.get('/posts/:handle', callback);
-app.get('/posts/:handle/handle', callback);
-app.get('/posts/:handle/author', callback);
-app.get('/posts/:handle/parent', callback);
-app.get('/posts/:handle/header', callback);
-app.get('/posts/:handle/body', callback);
-app.get('/posts/:handle/subheader', callback);
-app.get('/posts/:handle/active', callback);
-app.get('/posts/:handle/searchable', callback);
-app.get('/posts/:handle/commenting', callback);
-app.get('/posts/:handle/expanded', callback);
-app.get('/posts/:handle/topic', callback);
-app.get('/posts/:handle/created', callback);
-app.get('/posts/:handle/updated', callback);
+prefix = [undefined, pathPrefix, 'posts'].join('/');
 
-app.post('/posts', callback);
-app.patch('/posts/:handle', callback);
+app.get(prefix + '/', callback);
+app.get(prefix + '/:handle', callback);
+app.get(prefix + '/:handle/handle', callback);
+app.get(prefix + '/:handle/author', callback);
+app.get(prefix + '/:handle/parent', callback);
+app.get(prefix + '/:handle/header', callback);
+app.get(prefix + '/:handle/body', callback);
+app.get(prefix + '/:handle/subheader', callback);
+app.get(prefix + '/:handle/active', callback);
+app.get(prefix + '/:handle/searchable', callback);
+app.get(prefix + '/:handle/commenting', callback);
+app.get(prefix + '/:handle/expanded', callback);
+app.get(prefix + '/:handle/topic', callback);
+app.get(prefix + '/:handle/created', callback);
+app.get(prefix + '/:handle/updated', callback);
 
-//app.put('/posts/:handle/handle', callback);
-app.put('/posts/:handle/author', callback);
-app.put('/posts/:handle/parent', callback);
-app.put('/posts/:handle/header', callback);
-app.put('/posts/:handle/body', callback);
-app.put('/posts/:handle/subheader', callback);
-app.put('/posts/:handle/active', callback);
-app.put('/posts/:handle/searchable', callback);
-app.put('/posts/:handle/commenting', callback);
-app.put('/posts/:handle/expanded', callback);
-//app.put('/posts/:handle/created', callback);
-//app.put('/posts/:handle/updated', callback);
-//app.delete('/posts/:handle',
+app.post(prefix + '', callback);
+app.patch(prefix + '/:handle', callback);
 
-app.get('/topics', callback);
-app.get('/topics/:handle', callback);
-app.get('/topics/:handle/handle', callback);
+//app.put(prefix + '/:handle/handle', callback);
+app.put(prefix + '/:handle/author', callback);
+app.put(prefix + '/:handle/parent', callback);
+app.put(prefix + '/:handle/header', callback);
+app.put(prefix + '/:handle/body', callback);
+app.put(prefix + '/:handle/subheader', callback);
+app.put(prefix + '/:handle/active', callback);
+app.put(prefix + '/:handle/searchable', callback);
+app.put(prefix + '/:handle/commenting', callback);
+app.put(prefix + '/:handle/expanded', callback);
+//app.put(prefix + '/:handle/created', callback);
+//app.put(prefix + '/:handle/updated', callback);
+//app.delete(prefix + '/:handle',
+
+
+prefix = [undefined, pathPrefix, 'topics'].join('/');
+
+app.get(prefix + '/', callback);
+app.get(prefix + '/:handle', callback);
+app.get(prefix + '/:handle/handle', callback);
 
 
 app.listen(5000, () => {
