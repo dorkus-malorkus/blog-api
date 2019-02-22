@@ -8,6 +8,7 @@ const cfgPath = Path.join(__dirname, 'cfg');
 const cfgFile = Path.join(cfgPath, 'server.yml');
 
 const Services = require(Path.join(libPath, 'services.js'));
+const applyRoutes = require(Path.join(__dirname, 'routes.js'));
 
 
 const configuration = Configuration.fromFile(cfgFile);
@@ -19,9 +20,6 @@ const pathPrefix = configuration.prefix;
 const dbClient = new Services.Database.Client(dbURL);
 
 const app = Express();
-app.use(Express.static(publicPath));  // public assets path.
-app.use(Express.json());
-
 
 function callback(req, res) {
   let sanitized = req.path.match(/^[\/]+([\w\.\/-]+)$/);
@@ -79,78 +77,12 @@ function callback(req, res) {
 
 }
 
+applyRoutes(app, callback, {
+  prefix: pathPrefix,
+});
 
-
-let prefix;
-
-//app.get('/*', callback);
-prefix = [undefined, pathPrefix, 'authors'].join('/');
-
-app.get(prefix + '/', callback);
-app.get(prefix + '/:handle', callback);
-app.get(prefix + '/:handle/handle', callback);
-app.get(prefix + '/:handle/email', callback);
-app.get(prefix + '/:handle/active', callback);
-app.get(prefix + '/:handle/searchable', callback);
-app.get(prefix + '/:handle/commenting', callback);
-app.get(prefix + '/:handle/created', callback);
-app.get(prefix + '/:handle/updated', callback);
-
-app.post(prefix + '', callback);
-app.patch(prefix + '/:handle', callback);
-
-//app.put(prefix + '/:handle/handle', callback);
-app.put(prefix + '/:handle/email', callback);
-app.put(prefix + '/:handle/password', callback);
-app.put(prefix + '/:handle/active', callback);
-app.put(prefix + '/:handle/searchable', callback);
-app.put(prefix + '/:handle/commenting', callback);
-//app.put(prefix + '/:handle/created', callback);
-//app.put(prefix + '/:handle/updated', callback);
-//app.delete(prefix + '/:handle', callback.bind(undefined, service));
-
-
-prefix = [undefined, pathPrefix, 'posts'].join('/');
-
-app.get(prefix + '/', callback);
-app.get(prefix + '/:handle', callback);
-app.get(prefix + '/:handle/handle', callback);
-app.get(prefix + '/:handle/author', callback);
-app.get(prefix + '/:handle/parent', callback);
-app.get(prefix + '/:handle/header', callback);
-app.get(prefix + '/:handle/body', callback);
-app.get(prefix + '/:handle/subheader', callback);
-app.get(prefix + '/:handle/active', callback);
-app.get(prefix + '/:handle/searchable', callback);
-app.get(prefix + '/:handle/commenting', callback);
-app.get(prefix + '/:handle/expanded', callback);
-app.get(prefix + '/:handle/topic', callback);
-app.get(prefix + '/:handle/created', callback);
-app.get(prefix + '/:handle/updated', callback);
-
-app.post(prefix + '', callback);
-app.patch(prefix + '/:handle', callback);
-
-//app.put(prefix + '/:handle/handle', callback);
-app.put(prefix + '/:handle/author', callback);
-app.put(prefix + '/:handle/parent', callback);
-app.put(prefix + '/:handle/header', callback);
-app.put(prefix + '/:handle/body', callback);
-app.put(prefix + '/:handle/subheader', callback);
-app.put(prefix + '/:handle/active', callback);
-app.put(prefix + '/:handle/searchable', callback);
-app.put(prefix + '/:handle/commenting', callback);
-app.put(prefix + '/:handle/expanded', callback);
-//app.put(prefix + '/:handle/created', callback);
-//app.put(prefix + '/:handle/updated', callback);
-//app.delete(prefix + '/:handle',
-
-
-prefix = [undefined, pathPrefix, 'topics'].join('/');
-
-app.get(prefix + '/', callback);
-app.get(prefix + '/:handle', callback);
-app.get(prefix + '/:handle/handle', callback);
+app.use(Express.static(publicPath));  // public assets path.
+app.use(Express.json());
 
 
 app.listen(5000, () => {
