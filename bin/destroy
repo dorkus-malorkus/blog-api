@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+CURRENT_PATH=$( dirname $0 )
+ROOT_PATH=$( realpath $CURRENT_PATH/.. )
+
+DB_PATH=$ROOT_PATH/db
+
+if [ -e "$DB_PATH/unbuild.sql" ]; then
+  # run as a database architect.
+  psql --quiet --username="$PG_DATABASE" --file="$DB_PATH/unbuild.sql" $PG_DATABASE
+fi
+
+
+
+if [ -e "$DB_PATH/unsetup.sql" ]; then
+  # run as a database administrator.
+  psql --quiet --file="$DB_PATH/unsetup.sql"
+fi
+
+
+#rm -f $ROOT_PATH/.configured

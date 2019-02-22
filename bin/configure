@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+CURRENT_PATH=$( dirname $0 )
+ROOT_PATH=$( realpath $CURRENT_PATH/.. )
+
+DB_PATH=$ROOT_PATH/db
+
+PGUSER=dm-api
+PGDATABASE=dm-api
+
+if [ -e "$DB_PATH/setup.sql" ]; then
+  # run as a database administrator.
+  psql --quiet --file="$DB_PATH/setup.sql"
+fi
+
+if [ -e "$DB_PATH/build.sql" ]; then
+  # run as a database architect.
+  psql --quiet --username="$PG_DATABASE" --file="$DB_PATH/build.sql" dm-api
+fi
+
+if [ -e "$DB_PATH/seed.sql" ]; then
+  # run as a database user with read/write privileges.
+  psql --quiet --username="$PG_DATABASE" --file="$DB_PATH/seed.sql" dm-api
+fi
+
+
+
+#printf "$(date +%s)" > $ROOT_PATH/.configured
