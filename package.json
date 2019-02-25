@@ -17,7 +17,7 @@
   "author": "",
   "license": "MIT",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/slackjockey/configuration-wrapper"
+    "type": "git",
+    "url": "https://github.com/slackjockey/configuration-wrapper"
   }
 }
