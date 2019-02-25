@@ -5,7 +5,7 @@
     "watch": true,
     "instances": 0,
     "exec_mode": "cluster",
-    "max_memory_restart": "100M",
+    "max_memory_restart": "160M",
     "autorestart": true,
     "env": {
       "NODE_ENV": "development"
