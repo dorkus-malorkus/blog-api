@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+ROOT_PATH=$( git rev-parse --show-toplevel )
+
+CONTENT_REPO=https://github.com/dorkus-malorkus/blog-content.git
+CONTENT_PATH=$ROOT_PATH/public
+
+git clone $CONTENT_REPO $CONTENT_PATH

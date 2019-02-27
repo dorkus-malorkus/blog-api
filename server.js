@@ -81,7 +81,10 @@ applyRoutes(app, callback, {
   prefix: pathPrefix,
 });
 
-app.use(Express.static(publicPath));  // public assets path.
+if (publicPath) {
+  app.use(Express.static(publicPath));  // public assets path.
+}
+
 app.use(Express.json());
 
 
