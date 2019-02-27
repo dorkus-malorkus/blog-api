@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+SSH_USER=dm-api
+SSH_HOST=www.dorkusmalorkus.org
+
+REPO=blog-api
+
+ssh -C -x $SSH_USER@$SSH_HOST "cd ~/$REPO; git pull origin master; pm2 restart all"
