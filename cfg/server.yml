@@ -1,5 +1,5 @@
 
 public: public
-prefix: api
+prefix: blog
 
 database: postgresql://dm-api@localhost:5432/dm-api
